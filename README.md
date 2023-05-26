@@ -1,6 +1,8 @@
 # shlep
 
 
+![ai](https://github.com/knowsuchagency/shlep/assets/11974795/ec862cfe-c1e3-45d8-9a75-92a240d2fb8d)
+
 
 `shlep` lets you package your directory's content in a format that can be easily passed to ChatGPT. This is especially
 useful when using the code interpreter plugin!
