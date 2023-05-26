@@ -90,7 +90,7 @@ def create_output(
 
 def cli():
     parser = argparse.ArgumentParser(
-        prog="horde",
+        prog="shlep",
         description="Gather directory contents into a single output."
     )
     parser.add_argument("directory", help="The directory to analyze.")

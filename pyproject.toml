@@ -1,5 +1,5 @@
 [project]
-name = "horde"
+name = "shlep"
 version = "1.0.0"
 description = "gather directory contents into a single file"
 authors = [
@@ -15,4 +15,4 @@ requires = ["pdm-backend"]
 build-backend = "pdm.backend"
 
 [project.scripts]
-horde = "horde.main:cli"
+shlep = "shlep.main:cli"

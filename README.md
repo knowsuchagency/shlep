@@ -1,17 +1,17 @@
-# horde
+# shlep
 
 <img src="static/ai.png" alt="mascot" style="width: 400px; height: auto;">   
 
-`horde` lets you package your directory's content in a format that can be easily passed to ChatGPT. 
-
+`shlep` lets you package your directory's content in a format that can be easily passed to ChatGPT. This is especially
+useful when using the code interpreter plugin!
 
 It automatically excludes files that match what's in your `.gitignore` file, as well as any additional exclude patterns you provide.
 
 ## Installation
-You can install `horde` from PyPI, but the recommended installation for the CLI is through [pipx][pipx].
+You can install `shlep` from PyPI, but the recommended installation for the CLI is through [pipx][pipx].
 
 ```bash
-pipx install horde
+pipx install shlep
 ```
 
 ## Features
@@ -23,12 +23,12 @@ pipx install horde
 
 ## Usage
 
-`horde` can be used as a command-line tool or programmatically in your Python code.
+`shlep` can be used as a command-line tool or programmatically in your Python code.
 
 ### Command-line usage
 
 ```
-usage: horde [-h] [-o OUTPUT_FILE] [-i INDENT] [-e EXCLUDE] [-f {json,csv,plaintext}] directory
+usage: shlep [-h] [-o OUTPUT_FILE] [-i INDENT] [-e EXCLUDE] [-f {json,csv,plaintext}] directory
 
 Gather directory contents into a single output.
 
@@ -50,7 +50,7 @@ optional arguments:
 ### Programmatically in Python
 
 ```python
-from horde import create_output
+from shlep import create_output
 
 directory = "path/to/your/directory"
 indent = 2
