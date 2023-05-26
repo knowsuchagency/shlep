@@ -62,13 +62,7 @@ def create_output(
                 files_list.append({"path": str(path), "content": content})
 
     if output_format == "json":
-        output = json.dumps({"files": files_list}, indent=indent)
-    elif output_format == "csv":
-        output = f"path,content{os.linesep}"
-        for file in files_list:
-            file_path = file["path"]
-            file_content = file["content"]
-            output += f"{file_path},{file_content}{os.linesep}"
+        output = json.dumps(files_list, indent=indent)
     else:  # plaintext
         output = ""
         len_files_list = len(files_list)
@@ -117,9 +111,9 @@ def cli():
     parser.add_argument(
         "-f",
         "--format",
-        choices=["json", "csv", "plaintext"],
+        choices=["json", "plaintext"],
         default="json",
-        help="The output format. Can be 'json', 'csv', or 'plaintext'. Default is 'json'.",
+        help="The output format. Can be 'json' or 'plaintext'. Default is 'json'.",
     )
     args = parser.parse_args()
     excluded = args.exclude or []
