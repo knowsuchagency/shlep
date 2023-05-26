@@ -7,9 +7,9 @@ from pathlib import Path
 from pathspec import PathSpec
 
 DEFAULT_EXCLUDED = [
-    ".git/",
-    ".idea/",
-    ".pytest_cache/",
+    ".git",
+    ".idea",
+    ".pytest_cache",
 ]
 
 logger = logging.getLogger(__name__)
