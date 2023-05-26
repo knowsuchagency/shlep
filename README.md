@@ -1,6 +1,6 @@
 # shlep
 
-<img src="static/ai.png" alt="mascot" style="width: 400px; height: auto;">   
+
 
 `shlep` lets you package your directory's content in a format that can be easily passed to ChatGPT. This is especially
 useful when using the code interpreter plugin!
