@@ -1,5 +1,7 @@
 # horde
 
+<img src="static/ai.png" alt="mascot" style="width: 400px; height: auto;">   
+
 `horde` is a Python package that helps you package your directory's content in a format that can be easily passed to ChatGPT. 
 `horde` automatically excludes files and directories that match patterns from your `.gitignore` file, as well as any additional exclude patterns you provide.
 
