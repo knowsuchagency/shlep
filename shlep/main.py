@@ -4,6 +4,8 @@ import logging
 import os
 from pathlib import Path
 
+from pathspec import PathSpec
+
 DEFAULT_EXCLUDED = [
     ".git/",
     ".idea/",
@@ -13,19 +15,10 @@ DEFAULT_EXCLUDED = [
 logger = logging.getLogger(__name__)
 
 
-def get_excluded_patterns(directory, additional_excludes):
-    excluded_patterns = DEFAULT_EXCLUDED + additional_excludes
-    gitignore_path = os.path.join(directory, ".gitignore")
-    if os.path.exists(gitignore_path):
-        with open(gitignore_path) as f:
-            for line in f:
-                if line.strip() and not line.startswith("#"):
-                    excluded_patterns.append(line.strip())
-    return excluded_patterns
-
-
-def is_excluded(path, excluded_patterns):
-    return any(p in str(path) for p in excluded_patterns)
+def _is_excluded(base: Path, path: Path, spec: PathSpec = None):
+    if not spec:
+        return True
+    return spec.match_file(str(path.relative_to(base)))
 
 
 def create_output(
@@ -48,12 +41,23 @@ def create_output(
     Returns:
         None
     """
-    excluded_patterns = get_excluded_patterns(directory, additional_excludes)
-
     files_list = []
+    base = Path(directory).expanduser()
 
-    for path in Path(directory).rglob("*"):
-        if path.is_file() and not is_excluded(path, excluded_patterns):
+    if (gitignore := base / ".gitignore").exists():
+        with gitignore.open() as f:
+            additional_excludes.extend(
+                line.strip() for line in f if line.strip() and not line.startswith("#")
+            )
+        spec = PathSpec.from_lines(
+            "gitwildmatch",
+            DEFAULT_EXCLUDED + additional_excludes,
+        )
+    else:
+        spec = None
+
+    for path in base.rglob("*"):
+        if path.is_file() and not _is_excluded(base, path, spec):
             try:
                 content = path.read_text()
             except UnicodeDecodeError:
@@ -82,7 +86,7 @@ def create_output(
                 output += os.linesep * 2 + "---" + os.linesep * 2
 
     if output_file:
-        with open(output_file, "w") as f:
+        with Path(output_file).expanduser().open("w") as f:
             f.write(output)
     else:
         print(output)
@@ -90,8 +94,7 @@ def create_output(
 
 def cli():
     parser = argparse.ArgumentParser(
-        prog="shlep",
-        description="Gather directory contents into a single output."
+        prog="shlep", description="Gather directory contents into a single output."
     )
     parser.add_argument("directory", help="The directory to analyze.")
     parser.add_argument(
