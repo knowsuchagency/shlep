@@ -2,15 +2,16 @@
 
 <img src="static/ai.png" alt="mascot" style="width: 400px; height: auto;">   
 
-`horde` is a Python package that helps you package your directory's content in a format that can be easily passed to ChatGPT. 
-`horde` automatically excludes files and directories that match patterns from your `.gitignore` file, as well as any additional exclude patterns you provide.
+`horde` lets you package your directory's content in a format that can be easily passed to ChatGPT. 
+
+
+It automatically excludes files that match what's in your `.gitignore` file, as well as any additional exclude patterns you provide.
 
 ## Installation
-
-You can install `horde` from PyPI using pip:
+You can install `horde` from PyPI, but the recommended installation for the CLI is through [pipx][pipx].
 
 ```bash
-pip install horde
+pipx install horde
 ```
 
 ## Features
@@ -63,3 +64,5 @@ create_output(directory, indent, additional_excludes, output_format, output_file
 ## License
 
 This project is licensed under the Apache License 2.0. You can find the full license text in the [LICENSE](LICENSE) file.
+
+[pipx]: https://pypa.github.io/pipx/
