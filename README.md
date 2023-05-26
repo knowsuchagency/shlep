@@ -23,6 +23,10 @@ pipx install shlep
 - Allows you to provide additional exclude patterns
 - Can write output to a file or print it to stdout
 
+## Demo
+
+https://github.com/knowsuchagency/shlep/assets/11974795/ebfdae55-35f2-4edc-b0cb-089d2f99a7ca
+
 ## Usage
 
 `shlep` can be used as a command-line tool or programmatically in your Python code.
