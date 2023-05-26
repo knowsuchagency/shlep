@@ -1,0 +1,18 @@
+[project]
+name = "horde"
+version = "1.0.0"
+description = "gather directory contents into a single file"
+authors = [
+    {name = "Stephan Fitzpatrick", email = "knowsuchagency@gmail.com"},
+]
+dependencies = []
+requires-python = ">=3.10"
+readme = "README.md"
+license = {text = "Apache-2.0"}
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[project.scripts]
+horde = "horde.main:cli"
