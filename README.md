@@ -56,7 +56,7 @@ optional arguments:
 ### Programmatically in Python
 
 ```python
-from shlep import create_output
+from shlep import shlep
 
 directory = "path/to/your/directory"
 indent = 2
@@ -64,7 +64,7 @@ additional_excludes = [".env", "node_modules/"]
 output_format = "json"
 output_file = "output.json"
 
-create_output(directory, indent, additional_excludes, output_format, output_file)
+shlep(directory, indent, additional_excludes, output_format, output_file)
 ```
 
 ## License

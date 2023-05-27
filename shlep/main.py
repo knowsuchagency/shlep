@@ -17,13 +17,14 @@ def _is_excluded(base: Path, path: Path, spec: PathSpec = None):
     return spec.match_file(str(path.relative_to(base)))
 
 
-def create_output(
+def shlep(
     directory: str,
     indent: int,
     additional_excludes: list[str],
     output_format: str,
     output_file: str = None,
-) -> None:
+    quiet=False,
+) -> str:
     """
     Generate a file of all files in a directory.
 
@@ -33,9 +34,10 @@ def create_output(
         additional_excludes: Additional files or directories to exclude.
         output_format: The output format. Can be 'json', 'csv', or 'plaintext'. Default is 'json'.
         output_file: The output file to generate. If not specified, output is printed to stdout.
+        quiet: don't print output to stdout
 
-    Returns:
-        None
+    Returns (str):
+        output
     """
     files_list = []
     base = Path(directory).expanduser()
@@ -78,8 +80,10 @@ def create_output(
     if output_file:
         with Path(output_file).expanduser().open("w") as f:
             f.write(output)
-    else:
+    elif not quiet:
         print(output)
+
+    return output
 
 
 def cli():
@@ -117,7 +121,7 @@ def cli():
     )
     args = parser.parse_args()
     excluded = args.exclude or []
-    create_output(args.directory, args.indent, excluded, args.format, args.output_file)
+    shlep(args.directory, args.indent, excluded, args.format, args.output_file)
 
 
 if __name__ == "__main__":
