@@ -18,11 +18,11 @@ def _is_excluded(base: Path, path: Path, spec: PathSpec = None):
 
 
 def shlep(
-    directory: str,
+    directory: Path | str,
     indent: int,
     additional_excludes: list[str],
     output_format: str,
-    output_file: str = None,
+    output_file: Path | str = None,
     quiet=False,
 ) -> str:
     """
