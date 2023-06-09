@@ -1,4 +1,5 @@
 import argparse
+import fnmatch
 import json
 import logging
 import os
@@ -11,10 +12,19 @@ DEFAULT_EXCLUDED = [".git", ".idea"]
 logger = logging.getLogger(__name__)
 
 
-def _is_excluded(base: Path, path: Path, spec: PathSpec = None):
+def _is_excluded(base: Path, path: Path, spec: PathSpec = None, only_patterns=None):
+    path_relative_to_base = str(path.relative_to(base))
+
+    if only_patterns:
+        if any(path_relative_to_base == pattern for pattern in only_patterns):
+            return False
+        else:
+            return True
+
     if not spec:
         return True
-    return spec.match_file(str(path.relative_to(base)))
+
+    return spec.match_file(path_relative_to_base)
 
 
 def shlep(
@@ -24,6 +34,7 @@ def shlep(
     output_format: str,
     output_file: Path | str = None,
     quiet=False,
+    only_patterns=None,
 ) -> str:
     """
     Generate a file of all files in a directory.
@@ -35,6 +46,7 @@ def shlep(
         output_format: The output format. Can be 'json', 'csv', or 'plaintext'. Default is 'json'.
         output_file: The output file to generate. If not specified, output is printed to stdout.
         quiet: don't print output to stdout
+        only_patterns: Only include files that match any of the specified patterns.
 
     Returns (str):
         output
@@ -55,7 +67,7 @@ def shlep(
         spec = None
 
     for path in base.rglob("*"):
-        if path.is_file() and not _is_excluded(base, path, spec):
+        if path.is_file() and not _is_excluded(base, path, spec, only_patterns):
             try:
                 content = path.read_text()
             except UnicodeDecodeError:
@@ -119,9 +131,23 @@ def cli():
         default="json",
         help="The output format. Can be 'json' or 'plaintext'. Default is 'json'.",
     )
+    parser.add_argument(
+        "-y",
+        "--only",
+        type=str,
+        action="append",
+        help="Only include files that match this pattern. Can be used multiple times.",
+    )
     args = parser.parse_args()
     excluded = args.exclude or []
-    shlep(args.directory, args.indent, excluded, args.format, args.output_file)
+    shlep(
+        args.directory,
+        args.indent,
+        excluded,
+        args.format,
+        args.output_file,
+        only_patterns=args.only,
+    )
 
 
 if __name__ == "__main__":
