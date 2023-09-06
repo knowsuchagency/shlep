@@ -69,7 +69,7 @@ def shlep(
     for path in base.rglob("*"):
         if path.is_file() and not _is_excluded(base, path, spec, only_patterns):
             try:
-                content = path.read_text()
+                content = path.read_text(encoding="utf8")
             except UnicodeDecodeError:
                 logger.error(f"Could not read {path}")
             else:
