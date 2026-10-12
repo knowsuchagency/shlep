@@ -55,7 +55,7 @@ def shlep(
     base = Path(directory).expanduser()
 
     if (gitignore := base / ".gitignore").exists():
-        with gitignore.open() as f:
+        with gitignore.open(encoding="utf8") as f:
             additional_excludes.extend(
                 line.strip() for line in f if line.strip() and not line.startswith("#")
             )
@@ -69,7 +69,7 @@ def shlep(
     for path in base.rglob("*"):
         if path.is_file() and not _is_excluded(base, path, spec, only_patterns):
             try:
-                content = path.read_text()
+                content = path.read_text(encoding="utf8")
             except UnicodeDecodeError:
                 logger.error(f"Could not read {path}")
             else:
@@ -90,7 +90,7 @@ def shlep(
                 output += os.linesep * 2 + "---" + os.linesep * 2
 
     if output_file:
-        with Path(output_file).expanduser().open("w") as f:
+        with Path(output_file).expanduser().open("w", encoding="utf8") as f:
             f.write(output)
     elif not quiet:
         print(output)
